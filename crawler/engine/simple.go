@@ -25,9 +25,9 @@ func (e SimpleEngine) Run(seeds ...Request)  {
 			continue
 		}
 		requests = append(requests, parseResult.Requests...)
-		for _, item := range parseResult.Items{
-			log.Printf("Got item %v ", item)//%v - 打印时不进行转义，原来是什么就打印什么
-		}
+		//for _, item := range parseResult.Items{
+		//	//log.Printf("Got item %v ", item)//%v - 打印时不进行转义，原来是什么就打印什么
+		//}
 	}
 }
 

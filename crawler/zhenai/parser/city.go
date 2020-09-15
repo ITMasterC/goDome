@@ -6,12 +6,12 @@ import (
 )
 
 //const cityRe  = `<a href="http://www.7799520.com/user/*.html" target="_blank">*([^<]+)\s </a>`
-const cityRe  = `<a href="(http://www.7799520.com/user/[0-9]+.html)"[^>]*>([^<]+)</a>`
+var profileRe  = regexp.MustCompile(`<a href="(http://www.7799520.com/user/[0-9]+.html)"[^>]*>([^<]+)</a>`)
+var cityUrlRe = regexp.MustCompile(`href="(http://www.7799520.com/zhenghun/[^"]+)">`)
 
 func ParseCity(contents []byte) engine.ParserResult  {
-	re := regexp.MustCompile(cityRe)
 	//matches := re.FindAll(contents, -1)
-	matches := re.FindAllSubmatch(contents, -1)
+	matches := profileRe.FindAllSubmatch(contents, -1)
 	//fmt.Printf("%s\n", matches)
 	result := engine.ParserResult{}
 	for _, m := range matches{
@@ -23,5 +23,14 @@ func ParseCity(contents []byte) engine.ParserResult  {
 			}})
 		
 	}
+	
+	submatch := cityUrlRe.FindAllSubmatch(contents, -1)
+	for _, m := range submatch{
+		result.Requests = append(result.Requests, engine.Request{
+			Url: string(m[1]),
+			ParserFunc: ParseCity,
+		})
+	}
+	
 	return result
 }
