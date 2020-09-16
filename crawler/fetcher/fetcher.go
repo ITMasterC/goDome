@@ -17,7 +17,7 @@ var rateLimiter = time.Tick(10 * time.Millisecond)
 
 func Fetch(url string) ([]byte, error) {
 	//resp, err := http.Get("http://www.zhenai.com/zhenghun")
-	<- rateLimiter
+	//<- rateLimiter
 	resp, err := http.Get(url)
 	if err != nil{
 		panic(err)

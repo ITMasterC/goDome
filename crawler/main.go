@@ -2,6 +2,7 @@ package main
 
 import (
 	"demo-project/crawler/engine"
+	"demo-project/crawler/persist"
 	"demo-project/crawler/scheduler"
 	"demo-project/crawler/zhenai/parser"
 )
@@ -10,16 +11,17 @@ func main()  {
 	e := engine.ConcurrentEngine{
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 100,
+		ItemChan: persist.ItemSaver(),
 	}
 	
-	//e.Run(engine.Request{
-	//	Url:        "http://www.7799520.com/zhenghun",
-	//	ParserFunc: parser.ParseCityList,
-	//})
-	
 	e.Run(engine.Request{
-		Url: "http://www.7799520.com/zhenghun/shanghai",
-		ParserFunc: parser.ParseCity,
+		Url:        "http://www.7799520.com/zhenghun",
+		ParserFunc: parser.ParseCityList,
 	})
+	
+	//e.Run(engine.Request{
+	//	Url: "http://www.7799520.com/zhenghun/shanghai",
+	//	ParserFunc: parser.ParseCity,
+	//})
 }
 
